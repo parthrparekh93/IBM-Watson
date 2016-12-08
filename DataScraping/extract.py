@@ -1,10 +1,13 @@
 import urllib2
+import json
+from watson_developer_cloud import AlchemyLanguageV1
 from bs4 import BeautifulSoup
 
 wiki = "http://www.culpa.info/professors/1636"
 page = urllib2.urlopen(wiki)
 soup = BeautifulSoup(page)
 
+alchemy_language = AlchemyLanguageV1(api_key='b3425e39a3c407de56c9c08ca8854305db268925')
 
 # print soup.prettify().encode('UTF-8')
 # print soup.find('div', class_='professor').find('div', class_='box').find('h1').contents[0]
@@ -25,5 +28,7 @@ for review in reviews:
 print professor_name
 print dept_name
 print course_name
-print reviews_array	
+# print reviews_array	
 print len(reviews_array)	
+
+print (json.dumps(alchemy_language.sentiment(url='http://www.huffingtonpost.com/2010/06/22/iphone-4-review-the-worst_n_620714.html'), indent=2))
