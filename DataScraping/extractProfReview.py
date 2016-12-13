@@ -45,5 +45,5 @@ for professor in professors:
 	# print reviews_array
 	print len(reviews_array)
 
-	# for review in reviews_array:
-	# 	sentiment_array.append(json.dumps(alchemy_language.sentiment(text=review)["docSentiment"]["type"]))
+	for review in reviews_array:
+		sentiment_array.append(json.dumps(alchemy_language.sentiment(text=review)["docSentiment"]["type"]))

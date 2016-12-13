@@ -24,21 +24,21 @@ def doQuery(conn) :
             data = [i.strip() for i in data_og]
             #print data
             if(data[0] not in pdic):
-                #cur.execute("INSERT INTO professor VALUES (%s, %s, %s, %s, %s)",(pid,data[0],data[1],data[2],data[3]))
+                cur.execute("INSERT INTO professor2 VALUES (%s, %s, %s, %s, %s)",(pid,data[0],data[1],data[2],data[3]))
                 pdic[data[0]]=pid
                 pid+=1
             if(data[4] not in cdic):
-                #cur.execute("INSERT INTO course VALUES (%s, %s, %s, %s, %s, %s)",(cid, data[4],data[5],data[1],data[6],""))
+                # cur.execute("INSERT INTO course VALUES (%s, %s, %s, %s, %s, %s)",(cid, data[4],data[5],data[1],data[6],""))
                 cdic[data[4]] = cid
                 cid+=1
             #cur.execute("INSERT INTO building VALUES (%s, %s, %s, %s)",(data[0],data[1],float(data[2]), float(data[3])))
-    # with open('prof_course.txt','r') as f:
-    #     for line in f:
-    #         data_og = line.split('$')
-    #         data = [i.strip() for i in data_og]
-    #         print data
-    #         cur.execute("INSERT INTO course_prof VALUES (%s, %s, %s, %s, %s, %s)",(cdic[data[4]], pdic[data[0]],data[7],data[8],data[9],data[10]))
-    put_reviews(cur, pdic, cdic)
+    with open('prof_course.txt','r') as f:
+        for line in f:
+            data_og = line.split('$')
+            data = [i.strip() for i in data_og]
+            print data
+            cur.execute("INSERT INTO course_prof2 VALUES (%s, %s, %s, %s, %s, %s)",(cdic[data[4]], pdic[data[0]],data[7],data[8],data[9],data[10]))
+    #put_reviews(cur, pdic, cdic)
 
 def put_reviews(cur, pdic, cdic):
     professors = ["http://culpa.info/professors/2742", "http://culpa.info/professors/4500", "http://culpa.info/professors/2568", "http://culpa.info/professors/13217", "http://culpa.info/professors/1442", "http://culpa.info/professors/13116", "http://culpa.info/professors/375", "http://culpa.info/professors/3366", "http://culpa.info/professors/13076", "http://culpa.info/professors/1724", "http://culpa.info/professors/2941"];
