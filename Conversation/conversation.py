@@ -1,5 +1,5 @@
 import json
-from testing_psql import doQuery
+from getting_psql import doQuery
 from watson_developer_cloud import ConversationV1
 
 conversation = ConversationV1(
