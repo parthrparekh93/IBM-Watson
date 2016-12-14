@@ -25,10 +25,10 @@ text = json.dumps(response["input"]["text"])
 entity_value = text[int(indices[0].strip())+1 : int(indices[1].strip())+1]
 entity_value = entity_value.replace(" ", " & ")
 
-s = json.dumps(response["output"][text][0])
+s = json.dumps(response["output"]["text"][0])[1:-1]
 s = s.replace("%s",entity_value)
 
 print doQuery(s)
 
-print doQuery("SELECT pname, loc_no, loc_code, building.x_co, building.y_co FROM\
- professor2 JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')")
+# print doQuery("SELECT pname, loc_no, loc_code, building.x_co, building.y_co FROM\
+#  professor2 JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')")
