@@ -14,7 +14,7 @@ workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
 
 response = conversation.message(
   workspace_id=workspace_id,
-  message_input={'text': 'Where does david sit?'},
+  message_input={'text': 'How is David vallancourt?'},
   context=context
 )
 
@@ -24,7 +24,6 @@ indices = json.dumps(response["entities"][0]["location"])[1:-1].split(",")
 text = json.dumps(response["input"]["text"])
 entity_value = text[int(indices[0].strip())+1 : int(indices[1].strip())+1]
 entity_value = entity_value.replace(" ", " & ")
-
 s = json.dumps(response["output"]["text"][0])[1:-1]
 s = s.replace("%s",entity_value)
 

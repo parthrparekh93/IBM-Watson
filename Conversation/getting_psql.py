@@ -39,19 +39,18 @@ print courses
 
 
 #Intent = location, entity = professor_or_course, value = professor
-print doQuery("SELECT pname, loc_no, loc_code, building.x_co, building.y_co FROM\
-professor2 JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')")
- 
+print doQuery("SELECT pname, loc_no, loc_code, building.x_co, building.y_co FROM professor2 JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')")
+
 # Intent = location, entity = professor_or_course, value = course
 entity_value = "Bayesian Machine Learning".replace(" ", " & ")
 print doQuery("SELECT course.cno, course.name, loc_no, loc_code, building.x_co, building.y_co FROM course_prof2 JOIN building ON course_prof2.loc_code = building.b_code JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', course.name) @@ to_tsquery('english', '%s')")
- 
+
 # Intent = reviews, entity = professor_or_course, value = professor
 entity_value = "bellovin"
 print doQuery("SELECT pname, review, sentiment FROM professor2 JOIN course_review ON professor2.pid=course_review.pid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')")
 # print doQuery("SELECT count(*), sentiment FROM\
 # professor2 JOIN course_review ON professor2.pid=course_review.pid where to_tsvector('english', pname) @@ to_tsquery('english', '" + entity_value + "') GROUP BY sentiment")
- 
+
 # Intent = reviews, entity = professor_or_course, value = course
 entity_value = "Machine Learning".replace(" ", " & ")
 print doQuery("SELECT name, sentiment, review FROM course JOIN course_review ON course.cid=course_review.cid where to_tsvector('english', name) @@ to_tsquery('english', '%s')")
