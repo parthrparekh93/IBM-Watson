@@ -1,6 +1,8 @@
 import json
 from getting_psql import doQuery
+from tone_analyzer import get_anger
 from watson_developer_cloud import ConversationV1
+import operator
 
 conversation = ConversationV1(
   username='e2668e32-d4e4-48f9-8050-13a437a30ea4',
@@ -14,7 +16,7 @@ workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
 
 response = conversation.message(
   workspace_id=workspace_id,
-  message_input={'text': 'sayonar'},
+  message_input={'text': 'How is Bellovin'},
   context=context
 )
 
@@ -85,19 +87,25 @@ def get_time(response):
 
 
 def get_reviews(response):
-	entities =  response["entities"]
-	for entity in entities:
-		if entity["entity"] == "prof_or_course":
-			indices = entity["location"]
-			entity_value = text[indices[0]: indices[1]]
-			entity_value = entity_value.replace(" ", " & ")
-			if entity["value"] == "professor":
-				s = "SELECT pname, review, sentiment FROM professor2 JOIN course_review ON professor2.pid=course_review.pid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
-			else:
-				s = "SELECT name, sentiment, review FROM course JOIN course_review ON course.cid=course_review.cid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
-			s = s.replace("%s",entity_value)
-			print doQuery(s)
-
+    entities =  response["entities"]
+    for entity in entities:
+        if entity["entity"] == "prof_or_course":
+            indices = entity["location"]
+            entity_value = text[indices[0]: indices[1]]
+            entity_value = entity_value.replace(" ", " & ")
+            if entity["value"] == "professor":
+                s = "SELECT pname, review, sentiment FROM professor2 JOIN course_review ON professor2.pid=course_review.pid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
+            else:
+                s = "SELECT name, review, sentiment FROM course JOIN course_review ON course.cid=course_review.cid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
+            s = s.replace("%s",entity_value)
+            reviews = doQuery(s)
+            review_dict = {}
+            for review in reviews:
+                score = get_anger(review[1])
+                review_dict[review] = score
+            review_dict = sorted(review_dict.items(), key=operator.itemgetter(1))
+            for i, j in review_dict:
+                print i
 
 
 
