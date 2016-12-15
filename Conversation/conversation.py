@@ -130,6 +130,3 @@ elif response["intents"][0]["intent"] == "reviews":
 elif response["intents"][0]["intent"] == "suggest_course":
 	get_suggestion(response)
 
-
-# print doQuery("SELECT pname, loc_no, loc_code, building.x_co, building.y_co FROM\
-#  professor2 JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')")
