@@ -14,13 +14,13 @@ workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
 
 response = conversation.message(
   workspace_id=workspace_id,
-  message_input={'text': 'suggest courses for databases, machine learning and vision'},
+  message_input={'text': 'sayonar'},
   context=context
 )
 
 text = response["input"]["text"]
 
-print json.dumps(response,indent=2)
+# print json.dumps(response,indent=2)
 
 def get_loc(response):
 	entities = response["entities"]
@@ -130,3 +130,8 @@ elif response["intents"][0]["intent"] == "reviews":
 elif response["intents"][0]["intent"] == "suggest_course":
 	get_suggestion(response)
 
+elif response["intents"][0]["intent"] == "hello":
+	print "Hi, How may I help you?"
+
+elif response["intents"][0]["intent"] == "goodbye":
+	print "Thank you. Have a great day!"
