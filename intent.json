@@ -1,0 +1,27 @@
+{
+  "add" : {
+    "doc" : {
+      "id" : 1,
+      "intent" : "get_location"
+    }
+  },
+  "add" : {
+    "doc" : {
+      "id" : 2,
+      "intent" : "get_time"
+    }
+  },
+  "add" : {
+    "doc" : {
+      "id" : 3,
+      "intent" : "reviews"
+    }
+  },
+  "add" : {
+    "doc" : {
+      "id" : 4,
+      "intent" : "suggest_course"
+    }
+  },
+  "commit" : { }
+}
