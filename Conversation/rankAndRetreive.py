@@ -22,3 +22,5 @@ curl -X POST -u "196f0283-d44c-4442-9346-66b3e3c43315":"lrInT1KDztFu" -F trainin
 
 #Get ranker info
 curl -u "196f0283-d44c-4442-9346-66b3e3c43315":"lrInT1KDztFu"  "https://gateway.watsonplatform.net/retrieve-and-rank/api/v1/rankers/76643bx23-rank-1409"
+
+python ./train.py -u "196f0283-d44c-4442-9346-66b3e3c43315":"lrInT1KDztFu" -i /home/parth/Documents/IBM-Watson/intent.csv -c sc4dd74cd3_a04b_4440_8b15_1cf3bdca5e97 -x intent_collection -n "My ranker"
