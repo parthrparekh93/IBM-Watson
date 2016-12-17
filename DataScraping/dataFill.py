@@ -3,6 +3,7 @@ import urllib2
 import json
 from watson_developer_cloud import AlchemyLanguageV1
 from bs4 import BeautifulSoup
+import tone_analyzer
 
 alchemy_language = AlchemyLanguageV1(api_key='b3425e39a3c407de56c9c08ca8854305db268925')
 
@@ -52,7 +53,6 @@ def put_reviews(cur, pdic, cdic):
     	# print soup.prettify().encode('UTF-8')
     	# print soup.find('div', class_='professor').find('div', class_='box').find('h1').contents[0]
     	reviews_array = list()
-    	sentiment_array = list()
     	reviewToCourse = dict()
     	professor_info = soup.find('div', class_='professor').find('div', class_='box')
     	professor_name = professor_info.find('h1').contents[0].strip()
@@ -81,8 +81,15 @@ def put_reviews(cur, pdic, cdic):
     	# print course_name
     	# print reviews_array
     	# print len(reviews_array)
+        sentiment_array = list()
+        emotion_array = []
+        language_array = []
+        social_array = []
 
     	for review in reviews_array:
+            emotion_array.append(tone_analyzer.get_emotions(review))
+            language_array.append(tone_analyzer.get_language(review))
+            social_array.append(tone_analyzer.get_social(review))
         	sentiment_array.append(json.dumps(alchemy_language.sentiment(text=review)["docSentiment"]["type"]))
         count = 0
         for i, review in enumerate(reviewToCourse):
