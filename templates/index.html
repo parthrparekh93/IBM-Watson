@@ -33,9 +33,9 @@
       <div class="section no-pad-bot" id="index-banner">
         <div class="container">
           <br><br>
-          <h1 class="header center orange-text">Football Archive</h1>
+          <h1 class="header center orange-text">Columbia Assist</h1>
           <div class="row center">
-            <h5 class="header col s12 light">A website where you can find anything football</h5>
+            <h5 class="header col s12 light">A website where you can find anything Columbia</h5>
           </div>
           <br><br>
 
@@ -46,120 +46,21 @@
     <div class="section">
 
       <!--   Icon Section   -->
-
       <div class="row">
-        <div class="col s12 m4">
-          <div class="card small">
-
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="{{ url_for('static', filename = 'images/teams.jpg') }}">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="textarea1" class="materialize-textarea"></textarea>
+              <label for="textarea1">Your query goes here</label>
+            </div>
           </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Clubs<i class="material-icons right">more_vert</i></span>
-          </div>
-          <div class="card-action">
-                <a href="/clubs">Click for more info...</a>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">Clubs<i class="material-icons right">close</i></span>
-            <p>We list down all the teams. Try to find yours in there...</p>
-          </div>          
-          </div> 
-        </div>
-
-        <div class="col s12 m4">
-          <div class="card small">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="{{ url_for('static', filename = 'images/players.jpg') }}">
-          </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Players<i class="material-icons right">more_vert</i></span>
-          </div>
-          <div class="card-action">
-                <a href="/players">Click for more info...</a>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">Players<i class="material-icons right">close</i></span>
-            <p>Some stats on your favorite players and more...</p>
-          </div>  
-          </div> 
-        </div>    
-
-        <div class="col s12 m4">
-        <div class="card small">
-        <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" src="{{ url_for('static', filename = 'images/managers.jpg') }}">
-        </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Managers<i class="material-icons right">more_vert</i></span>
-          </div>
-          <div class="card-action">
-                <a href="/managers">Click for more info...</a>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">Managers<i class="material-icons right">close</i></span>
-            <p>The guys who runs the teams. We give you the low down on them...</p>
-          </div>  
-        </div>  
-        </div>           
+        </form>
       </div>
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="card small">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="{{ url_for('static', filename = 'images/owners.jpg') }}">
-          </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Owners<i class="material-icons right">more_vert</i></span>
-          </div>
-          <div class="card-action">
-                <a href="/owners">Click for more info...</a>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">Owners<i class="material-icons right">close</i></span>
-            <p>Teams need money. These guys have a lot of it...</p>
-          </div>  
-          </div> 
-        </div>
-
-        <div class="col s12 m4">
-          <div class="card small">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="{{ url_for('static', filename = 'images/org.jpg') }}">
-          </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Organizations<i class="material-icons right">more_vert</i></span>
-          </div>
-          <div class="card-action">
-                <a href="/organizations">Click for more info...</a>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">Organizations<i class="material-icons right">close</i></span>
-            <p>We list down all the companies that own it all...</p>
-          </div>  
-          </div> 
-        </div>    
-
-        <div class="col s12 m4">
-        <div class="card small">
-        <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" src="{{ url_for('static', filename = 'images/title.jpg') }}">
-        </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Titles<i class="material-icons right">more_vert</i></span>
-          </div>
-          <div class="card-action">
-                <a href="/titles">Click for more info...</a>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">Titles<i class="material-icons right">close</i></span>
-            <p>Know what the clubs are fighting it out for...</p>
-          </div>  
-        </div>  
-        </div>           
-      </div>
+      <a class="btn tooltipped" data-position="top" data-delay="50" data-tooltip="Hi There! What can I help with?">Search Everywhere!</a>
+             
     </div>
-    <br><br>
+  </div>
+<br><br>
 
   </div>
   <div class="parallax-container">
@@ -193,7 +94,12 @@
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
       <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
-      <script>    $(document).ready(function(){
+      <script> 
+          $(document).ready(function(){
+    $('.tooltipped').tooltip({delay: 50});
+  });
+        
+         $(document).ready(function(){
       $('.parallax').parallax();
     });</script>
     </body>
