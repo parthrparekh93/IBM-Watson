@@ -42,9 +42,16 @@ def doQuery(conn) :
     #put_reviews(cur, pdic, cdic)
 '''
 def put_reviews(cur, pdic, cdic):
-    professors = ["http://culpa.info/professors/2742", "http://culpa.info/professors/4500", "http://culpa.info/professors/2568", "http://culpa.info/professors/13217", "http://culpa.info/professors/1442", "http://culpa.info/professors/13116", "http://culpa.info/professors/375", "http://culpa.info/professors/3366", "http://culpa.info/professors/13076", "http://culpa.info/professors/1724", "http://culpa.info/professors/2941"];
+    professors = ["http://culpa.info/professors/2742", "http://culpa.info/professors/4500", "http://culpa.info/professors/2568", 
+    "http://culpa.info/professors/13217", "http://culpa.info/professors/1442", "http://culpa.info/professors/13116", 
+    "http://culpa.info/professors/375", "http://culpa.info/professors/3366", "http://culpa.info/professors/13076", 
+    "http://culpa.info/professors/1724", "http://culpa.info/professors/2941", "http://www.culpa.info/professors/42",
+    "http://www.culpa.info/professors/2427","http://www.culpa.info/professors/1637","http://www.culpa.info/professors/3509",
+    "http://www.culpa.info/professors/4210","http://www.culpa.info/professors/3409","http://www.culpa.info/professors/13070",
+    "http://www.culpa.info/professors/4205", "http://www.culpa.info/professors/12959","http://www.culpa.info/professors/515",
+    "http://www.culpa.info/professors/39","http://www.culpa.info/professors/4057","http://www.culpa.info/professors/4221"];
     #professors = ["http://culpa.info/professors/375"];
-    pids = [1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
+    pids = [1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 15, 16 ,17, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29]
     for j,professor in enumerate(professors):
     	page = urllib2.urlopen(professor)
     	soup = BeautifulSoup(page)
