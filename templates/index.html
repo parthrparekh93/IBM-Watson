@@ -47,17 +47,17 @@
 
       <!--   Icon Section   -->
       <div class="row">
-        <form class="col s12">
+        <form class="col s12" action="/search">
           <div class="row">
             <div class="input-field col s12">
-              <textarea id="textarea1" class="materialize-textarea"></textarea>
+              <textarea id="textarea1" name="textarea1" class="materialize-textarea"></textarea>
               <label for="textarea1">Your query goes here</label>
             </div>
           </div>
+          <input type="submit" value="Search Everywhere">
+          <!-- <a class="btn tooltipped" href="/search" data-position="top" data-delay="50" data-tooltip="Hi There! What can I help with?">Search Everywhere!</a> -->
         </form>
       </div>
-      <a class="btn tooltipped" data-position="top" data-delay="50" data-tooltip="Hi There! What can I help with?">Search Everywhere!</a>
-             
     </div>
   </div>
 <br><br>
@@ -94,11 +94,11 @@
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
       <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
-      <script> 
+      <script>
           $(document).ready(function(){
     $('.tooltipped').tooltip({delay: 50});
   });
-        
+
          $(document).ready(function(){
       $('.parallax').parallax();
     });</script>

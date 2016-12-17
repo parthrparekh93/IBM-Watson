@@ -1,30 +1,11 @@
 import json
 from getting_psql import doQuery
-from tone_analyzer import get_anger
 from watson_developer_cloud import ConversationV1
 import operator
+import sys
 
-conversation = ConversationV1(
-  username='e2668e32-d4e4-48f9-8050-13a437a30ea4',
-  password='HxIQNbLB67Fh',
-  version='2016-09-20'
-)
-
-context = {}
-
-workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
-
-response = conversation.message(
-  workspace_id=workspace_id,
-
-  message_input={'text': 'I am interested in Machine Learning. Give me some related courses?'},
-  context=context
-)
-
-text = response["input"]["text"]
-
+text = ""
 # print json.dumps(response,indent=2)
-
 def get_loc(response):
 	entities = response["entities"]
 	oh_lec = 0
@@ -51,7 +32,7 @@ def get_loc(response):
 				else:
 					s = "SELECT cno, name, pname, professor2.loc_no, professor2.loc_code, building.x_co, building.y_co FROM course_prof2 JOIN professor2 ON course_prof2.pid = professor2.pid JOIN building ON professor2.loc_code = building.b_code JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', course.name) @@ to_tsquery('english', '%s')"
 			s = s.replace("%s",entity_value)
-			print doQuery(s)
+			return doQuery(s)
 
 
 
@@ -82,7 +63,7 @@ def get_time(response):
 					s = "SELECT name, cno, pname, oh_time FROM course JOIN course_prof2 ON course.cid = course_prof2.cid JOIN professor2 ON professor2.pid = course_prof2.pid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
 
 			s = s.replace("%s",entity_value)
-			print doQuery(s)
+			return doQuery(s)
 
 
 def get_reviews(response):
@@ -96,7 +77,7 @@ def get_reviews(response):
             else:
                 s = "SELECT name, review, sentiment FROM course JOIN course_review ON course.cid=course_review.cid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
             s = s.replace("%s",entity_value)
-            print doQuery(s)
+            return doQuery(s)
 
 
 
@@ -114,23 +95,42 @@ def get_suggestion(response):
 			res = doQuery(s)
 			for i,j in res:
 				courses.add(i)
-	print courses
+	return courses
 
 
-if response["intents"][0]["intent"] == "get_location":
-	get_loc(response)
+def entry(inputText):
+    conversation = ConversationV1(
+      username='e2668e32-d4e4-48f9-8050-13a437a30ea4',
+      password='HxIQNbLB67Fh',
+      version='2016-09-20'
+    )
 
-elif response["intents"][0]["intent"] == "get_time":
-	get_time(response)
+    context = {}
 
-elif response["intents"][0]["intent"] == "reviews":
-	get_reviews(response)
+    workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
+    
+    response = conversation.message(
+      workspace_id=workspace_id,
+      message_input={'text': inputText},
+      context=context
+    )
 
-elif response["intents"][0]["intent"] == "suggest_course":
-	get_suggestion(response)
+    text = response["input"]["text"]
 
-elif response["intents"][0]["intent"] == "hello":
-	print "Hi, How may I help you?"
+    if response["intents"][0]["intent"] == "get_location":
+    	return get_loc(response)
 
-elif response["intents"][0]["intent"] == "goodbye":
-	print "Thank you. Have a great day!"
+    elif response["intents"][0]["intent"] == "get_time":
+    	return get_time(response)
+
+    elif response["intents"][0]["intent"] == "reviews":
+    	return get_reviews(response)
+
+    elif response["intents"][0]["intent"] == "suggest_course":
+    	return get_suggestion(response)
+
+    elif response["intents"][0]["intent"] == "hello":
+    	return "Hi, How may I help you?"
+
+    elif response["intents"][0]["intent"] == "goodbye":
+    	return "Thank you. Have a great day!"

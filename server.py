@@ -4,6 +4,8 @@ import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response
+from Conversation.conversation import entry
+import json
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
@@ -23,6 +25,7 @@ def before_request():
   """
   try:
     g.conn = engine.connect()
+    print "Database connected"
     print g.conn
   except:
     print "uh oh, problem connecting to database"
@@ -53,6 +56,12 @@ def index():
   See its API: http://flask.pocoo.org/docs/0.10/api/#incoming-request-data
   """
   return render_template("index.html")
+
+@app.route('/search',methods=['GET'])
+def search():
+    text = str(request.args["textarea1"])
+    return json.dumps(entry(text))
+    #return render_template("index.html")
 
 @app.route('/club',methods=['GET'])
 def club():
