@@ -60,8 +60,8 @@ def index():
 @app.route('/search',methods=['GET'])
 def search():
     text = str(request.args["textarea1"])
-    return json.dumps(entry(text))
-    #return render_template("index.html")
+    context = entry(text)
+    return render_template("index.html", **context)
 
 @app.route('/club',methods=['GET'])
 def club():

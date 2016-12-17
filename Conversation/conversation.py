@@ -108,11 +108,12 @@ def entry(inputText):
     context = {}
 
     workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
-    
+
     response = conversation.message(
       workspace_id=workspace_id,
       message_input={'text': inputText},
-      context=context
+      context=context,
+      alternate_intents=True
     )
 
     text = response["input"]["text"]
