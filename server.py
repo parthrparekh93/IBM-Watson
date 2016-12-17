@@ -14,34 +14,34 @@ DATABASEURI = "postgresql://postgres:postgres@localhost/columbiaconnect"
 
 engine = create_engine(DATABASEURI)
 
-@app.before_request
-def before_request():
-  """
-  This function is run at the beginning of every web request
-  (every time you enter an address in the web browser).
-  We use it to setup a database connection that can be used throughout the request.
+# @app.before_request
+# def before_request():
+#   """
+#   This function is run at the beginning of every web request
+#   (every time you enter an address in the web browser).
+#   We use it to setup a database connection that can be used throughout the request.
 
-  The variable g is globally accessible.
-  """
-  try:
-    g.conn = engine.connect()
-    print "Database connected"
-    print g.conn
-  except:
-    print "uh oh, problem connecting to database"
-    import traceback; traceback.print_exc()
-    g.conn = None
+#   The variable g is globally accessible.
+#   """
+#   try:
+#     g.conn = engine.connect()
+#     print "Database connected"
+#     print g.conn
+#   except:
+#     print "uh oh, problem connecting to database"
+#     import traceback; traceback.print_exc()
+#     g.conn = None
 
-@app.teardown_request
-def teardown_request(exception):
-  """
-  At the end of the web request, this makes sure to close the database connection.
-  If you don't, the database could run out of memory!
-  """
-  try:
-    g.conn.close()
-  except Exception as e:
-    pass
+# @app.teardown_request
+# def teardown_request(exception):
+#   """
+#   At the end of the web request, this makes sure to close the database connection.
+#   If you don't, the database could run out of memory!
+#   """
+#   try:
+#     g.conn.close()
+#   except Exception as e:
+#     pass
 
 
 @app.route('/')
@@ -59,13 +59,21 @@ def index():
 
 @app.route('/search',methods=['GET'])
 def search():
-    text = str(request.args["query"])
-    response = entry(text)
-    intent = response["intent"]
+    # text = str(request.args["query"])
+    # response = entry(text)
+    #intent = response["intent"]
+    intent = "location"
+    # alt_intents = response["response"]["intents"][1:]
+    alt_intents = [{"confidence":0.004, "intent" : "get_location"},{"confidence":0.2, "intent" : "get_course"}]
 
-    alt_intents = response["response"]["intents"][1:]
-
-    value = response["value"]
+    # value = response["value"]
+    value = [
+            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
+            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
+            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
+            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
+            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"negative\""}
+            ]
 
     context = dict(data=alt_intents, data1=value)
     render_file = str(intent) + ".html"

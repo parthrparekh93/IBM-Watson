@@ -36,9 +36,9 @@
     <div class="section no-pad-bot" id="index-banner">
       <div class="container">
         <br><br>
-        <h1 class="header center orange-text">Reviews</h1>
+        <h1 class="header center orange-text">Location</h1>
         <div class="row center">
-          <h5 class="header col s12 light">This is what your peers think of {{data1[0]["professor"]}}</h5>
+          <h5 class="header col s12 light">This is where it is located</h5>
         </div>
         <br><br>
 
@@ -68,27 +68,13 @@
       <h5 class="header col s11 m11 l9 light">Reviews</h5>
       
         <div class="col s11">
-          <ul class="collapsible popout" data-collapsible="accordion">
-          {% for n in data1 %}
-            <li>
-
-              {% if n["sentiment"] == "\"positive\"" %}
-
-                <div class="collapsible-header"><i class="material-icons">thumb_up</i>{{n["coursename"]}} - {{n["professor"]}}</div>
-                <div class="collapsible-body">
-
-              {% else %}
-
-                <div class="collapsible-header"><i class="material-icons">thumb_down</i>{{n["coursename"]}} - {{n["professor"]}}</div>
-                <div class="collapsible-body">
-
-              {% endif %}
-
-                <p>{{n["review"]}} </p>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
+          <iframe
+            width="640"
+            height="480"
+            frameborder="0" style="border:0"
+            src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=Mudd Building"
+          allowfullscreen>
+          </iframe>
         </div>
       </div>
       
