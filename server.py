@@ -59,9 +59,18 @@ def index():
 
 @app.route('/search',methods=['GET'])
 def search():
-    text = str(request.args["textarea1"])
-    context = entry(text)
-    return render_template("index.html", **context)
+    text = str(request.args["query"])
+    response = entry(text)
+    intent = response["intent"]
+
+    alt_intents = response["response"]["intents"][1:]
+
+    value = response["value"]
+
+    context = dict(data=alt_intents, data1=value)
+    render_file = str(intent) + ".html"
+    print json.dumps(context, indent=2)
+    return render_template(render_file, **context)
 
 @app.route('/club',methods=['GET'])
 def club():

@@ -20,8 +20,8 @@
       <link rel="icon" type="image/png" href="{{ url_for('static', filename = 'images/favicon-32x32.png') }}" sizes="32x32">
       <link rel="icon" type="image/png" href="{{ url_for('static', filename = 'images/android-chrome-192x192.png') }}" sizes="192x192">
       <link rel="icon" type="image/png" href="{{ url_for('static', filename = 'images/favicon-96x96.png') }}" sizes="96x96">
-      <link rel="icon" type="image/png" href="{{ url_for('static', filename = '/images/favicon-16x16.png') }}"" sizes="16x16">
-      <!--Let browser know website is optimized for mobile-->
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename = '/images/favicon-16x16.png') }}" sizes="16x16">
+
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
 
@@ -42,24 +42,21 @@
         </div>
       </div>
 
-  <div class="container">
-    <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-        <form class="col s12" action="/search">
+      <div class="container">
+        <div class="section">
           <div class="row">
-            <div class="input-field col s12">
-              <textarea id="textarea1" name="textarea1" class="materialize-textarea"></textarea>
-              <label for="textarea1">Your query goes here</label>
-            </div>
+            <form class="col s12" action="/search">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="query" name="query" type="text" class="validate">
+                  <label for="query">Your query goes here</label>
+                </div>
+              </div>
+              <input class="btn tooltipped" type="submit"  data-position="top" data-delay="50" data-tooltip="Hi There! What can I help with?" value="Search Everywhere">
+            </form>
           </div>
-          <input type="submit" value="Search Everywhere">
-          <!-- <a class="btn tooltipped" href="/search" data-position="top" data-delay="50" data-tooltip="Hi There! What can I help with?">Search Everywhere!</a> -->
-        </form>
+        </div>
       </div>
-    </div>
-  </div>
 <br><br>
 
 </div>
