@@ -96,14 +96,7 @@ def get_reviews(response):
             else:
                 s = "SELECT name, review, sentiment FROM course JOIN course_review ON course.cid=course_review.cid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
             s = s.replace("%s",entity_value)
-            reviews = doQuery(s)
-            review_dict = {}
-            for review in reviews:
-                score = get_anger(review[1])
-                review_dict[review] = score
-            review_dict = sorted(review_dict.items(), key=operator.itemgetter(1))
-            for i, j in review_dict:
-                print i
+            print doQuery(s)
 
 
 
