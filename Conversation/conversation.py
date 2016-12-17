@@ -16,7 +16,8 @@ workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
 
 response = conversation.message(
   workspace_id=workspace_id,
-  message_input={'text': 'Where does ML lecture happen'},
+
+  message_input={'text': 'I am interested in Machine Learning. Give me some related courses?'},
   context=context
 )
 
