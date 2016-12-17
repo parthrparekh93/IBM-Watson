@@ -16,7 +16,7 @@ workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
 
 response = conversation.message(
   workspace_id=workspace_id,
-  message_input={'text': 'How is Bellovin'},
+  message_input={'text': 'Where does ML lecture happen'},
   context=context
 )
 
@@ -32,19 +32,18 @@ def get_loc(response):
 			oh_lec = entity["value"]
 
 	for entity in entities:
-		if entity["entity"] == "prof_or_course":
-			indices = entity["location"]
-			entity_value = text[indices[0]: indices[1]]
+		if entity["entity"] == "professor" or entity["entity"] == "course":
+			entity_value = entity["value"]
 			entity_value = entity_value.replace(" ", " & ")
 
-			if entity["value"] == "professor":
+			if entity["entity"] == "professor":
 				if oh_lec == 0 or oh_lec == "office hours":
 					s = "SELECT pname, loc_no, loc_code, building.x_co, building.y_co FROM professor2 JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
 
 				else:
 					s = "SELECT pname, cno, name, course_prof2.loc_no, course_prof2.loc_code, building.x_co, building.y_co FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN building ON course_prof2.loc_code = building.b_code JOIN course ON course_prof2.cid = course.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
 
-			elif entity["value"] == "course":
+			elif entity["entity"] == "course":
 				if oh_lec == 0 or oh_lec == "lecture":
 					s = "SELECT cno, name, loc_no, loc_code, building.x_co, building.y_co FROM course_prof2 JOIN building ON course_prof2.loc_code = building.b_code JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', course.name) @@ to_tsquery('english', '%s')"
 
@@ -63,19 +62,18 @@ def get_time(response):
 			oh_lec = entity["value"]
 
 	for entity in entities:
-		if entity["entity"] == "prof_or_course":
-			indices = entity["location"]
-			entity_value = text[indices[0]: indices[1]]
+		if entity["entity"] == "professor" or entity["entity"] == "course":
+			entity_value = entity["value"]
 			entity_value = entity_value.replace(" ", " & ")
 
-			if entity["value"] == "professor":
+			if entity["entity"] == "professor":
 				if oh_lec == 0 or oh_lec == "office hours":
 					s = "SELECT pname, oh_time FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
 
 				else:
 					s = "SELECT pname, name, lec_time FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
 
-			elif entity["value"] == "course":
+			elif entity["entity"] == "course":
 				if oh_lec == 0 or oh_lec == "lecture":
 					s = "SELECT name, cno, lec_time FROM course JOIN course_prof2 ON course.cid = course_prof2.cid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
 
@@ -89,9 +87,8 @@ def get_time(response):
 def get_reviews(response):
     entities =  response["entities"]
     for entity in entities:
-        if entity["entity"] == "prof_or_course":
-            indices = entity["location"]
-            entity_value = text[indices[0]: indices[1]]
+        if entity["entity"] == "professor" or entity["entity"] == "course":
+            entity_value = entity["value"]
             entity_value = entity_value.replace(" ", " & ")
             if entity["value"] == "professor":
                 s = "SELECT pname, review, sentiment FROM professor2 JOIN course_review ON professor2.pid=course_review.pid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
