@@ -1,9 +1,9 @@
 import psycopg2
 
-hostname = 'localhost'
-username = 'postgres'
-password = 'postgres'
-database = 'columbiaconnect'
+hostname = 'echo-01.db.elephantsql.com'
+username = 'fkwmrwis'
+password = 'MzWMfguQyEDEXHmlhwNue0WhmoHnA7z3'
+database = 'fkwmrwis'
 
 def doQuery(s) :
     myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
@@ -12,3 +12,5 @@ def doQuery(s) :
     return cur.fetchall()
     myConnection.commit()
     myConnection.close()
+
+#print doQuery("Select * from professor2;")
