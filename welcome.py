@@ -13,33 +13,39 @@
 # limitations under the License.
 
 import os
-from flask import Flask, jsonify
+from flask import Flask, request, render_template, g, redirect, Response
 
-app = Flask(__name__)
+tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+app = Flask(__name__, template_folder=tmpl_dir)
 
 @app.route('/')
 def Welcome():
-    return app.send_static_file('index.html')
+    return app.render_template('index.html')
 
-@app.route('/myapp')
-def WelcomeToMyapp():
-    return 'Welcome again to my app running on Bluemix!'
-
-@app.route('/api/people')
-def GetPeople():
-    list = [
-        {'name': 'John', 'age': 28},
-        {'name': 'Bill', 'val': 26}
-    ]
-    return jsonify(results=list)
-
-@app.route('/api/people/<name>')
-def SayHello(name):
-    message = {
-        'message': 'Hello ' + name
-    }
-    return jsonify(results=message)
-
-port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=int(port))
+  import click
+
+  @click.command()
+  @click.option('--debug', is_flag=True)
+  @click.option('--threaded', is_flag=True)
+  @click.argument('HOST', default='0.0.0.0')
+  @click.argument('PORT', default=8111, type=int)
+  def run(debug, threaded, host, port):
+    """
+    This function handles command line parameters.
+    Run the server using:
+
+        python server.py
+
+    Show the help text using:
+
+        python server.py --help
+
+    """
+
+    HOST, PORT = host, port
+    print "running on %s:%d" % (HOST, PORT)
+    app.run(host=HOST, port=PORT, debug=debug, threaded=threaded)
+
+
+  run()
