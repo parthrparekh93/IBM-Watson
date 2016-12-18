@@ -69,6 +69,8 @@ def search():
         # alt_intents = [{"confidence":0.004, "intent" : "get_location"},{"confidence":0.2, "intent" : "get_course"}]
 
         value = response["value"]
+
+        entity = response["response"]["entities"]
         # value = [
 
                 # {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
@@ -84,15 +86,80 @@ def search():
             if review["sentiment"] == "\"positive\"":
                 positive += 1
 
-        percent = format(((positive/float(total)) * 100),'.2f')
+        pos_percent = format(((positive/float(total)) * 100),'.2f')
+        neg_percent = format(100 - ((positive/float(total)) * 100),'.2f')
 
-        context = dict(data=alt_intents, data1=value, data2=percent)
+        context = dict(data=alt_intents, data1=value, data2=pos_percent, data3=neg_percent, data4=entity)
         render_file = str(page) + ".html"
         print json.dumps(context, indent=2)
         return render_template(render_file, **context)
-    #
-    # elif intent == "location":
+    elif page == "location_office_hours":
+        value = response["value"]
 
+        for val in value:
+            val["timing"] = val["timing"].decode("utf-8")
+            val["location"] = str(val["building"]).replace(' ', '+')
+            val["src"] = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=" + str(val["location"]) + "+of+Columbia+University"
+        alt_intents = response["response"]["intents"][1:]
+
+        entity = response["response"]["entities"]
+        context = dict(data=alt_intents, data1=value, data2=entity)
+        render_file = str(page) + ".html"
+        return render_template(render_file, **context)
+
+    elif page == "location_lecture":
+        value = response["value"]
+
+        for val in value:
+            val["timing"] = val["timing"].decode("utf-8")
+            val["location"] = str(val["building"]).replace(' ', '+')
+            val["src"] = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=" + str(val["location"]) + "+of+Columbia+University"
+        alt_intents = response["response"]["intents"][1:]
+
+        entity = response["response"]["entities"]
+        context = dict(data=alt_intents, data1=value, data2=entity)
+        render_file = str(page) + ".html"
+        return render_template(render_file, **context)
+
+    elif page == "time_office_hours":
+        value = response["value"]
+
+        for val in value:
+            val["time"] = val["time"].decode("utf-8")
+            val["location"] = str(val["building"]).replace(' ', '+')
+            val["src"] = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=" + str(val["location"]) + "+of+Columbia+University"
+        alt_intents = response["response"]["intents"][1:]
+
+        entity = response["response"]["entities"]
+        context = dict(data=alt_intents, data1=value, data2=entity)
+        render_file = str(page) + ".html"
+        return render_template(render_file, **context)
+
+    elif page == "time_lecture":
+        value = response["value"]
+
+        for val in value:
+            val["time"] = val["time"].decode("utf-8")
+            val["location"] = str(val["building"]).replace(' ', '+')
+            val["src"] = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=" + str(val["location"]) + "+of+Columbia+University"
+        alt_intents = response["response"]["intents"][1:]
+
+        entity = response["response"]["entities"]
+        context = dict(data=alt_intents, data1=value, data2=entity)
+        render_file = str(page) + ".html"
+        return render_template(render_file, **context)
+
+    elif page == "suggest_course":
+        value = response["value"]
+
+        alt_intents = response["response"]["intents"][1:]
+
+        entity = response["response"]["entities"]
+        context = dict(data=alt_intents, data1=value, data2=entity)
+        render_file = str(page) + ".html"
+        return render_template(render_file, **context)
+
+    return render_template("index.html")
 
 
 @app.route('/club',methods=['GET'])

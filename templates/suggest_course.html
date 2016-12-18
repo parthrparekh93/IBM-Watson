@@ -38,13 +38,9 @@
     <div class="section no-pad-bot" id="index-banner">
       <div class="container">
         <br><br>
-        <h1 class="header center orange-text">Reviews</h1>
+        <h1 class="header center orange-text">Suggested Courses</h1>
         <div class="row center">
-          {% if data4[0]["entity"] == "professor" %}
-            <h5 class="header col s12 light">This is what your peers think of {{data1[0]["professor"]}}</h5>
-          {% else %}
-            <h5 class="header col s12 light">This is what your peers think of {{data1[0]["coursename"]}}</h5>
-          {% endif %}
+            <h5 class="header col s12 light">These are some courses we suggest</h5>
         </div>
         <br><br>
 
@@ -71,26 +67,15 @@
   <div class="section">
     <div class="row">
     <div class="col s11">
-      <h5 class="header col s10 m11 l9 light">Reviews</h5>
+      <h5 class="header col s10 m11 l9 light">Courses</h5>
 
         <div class="col s10">
           <ul class="collapsible popout" data-collapsible="accordion">
           {% for n in data1 %}
             <li>
-
-              {% if n["sentiment"] == "\"positive\"" %}
-
                 <div class="collapsible-header"><i class="material-icons">thumb_up</i>{{n["coursename"]}} - {{n["professor"]}}</div>
                 <div class="collapsible-body">
-
-              {% else %}
-
-                <div class="collapsible-header"><i class="material-icons">thumb_down</i>{{n["coursename"]}} - {{n["professor"]}}</div>
-                <div class="collapsible-body">
-
-              {% endif %}
-
-                <p>{{n["review"]}} </p>
+                <p>{{n["description"]}} </p>
               </div>
             </li>
             {% endfor %}
@@ -115,7 +100,7 @@
 </div>
 </div>
 <div class="section">
- <div class="col s2 push-s10" id="sentiment" align="left" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+ <!-- <div class="col s2 push-s10" id="sentiment" align="left" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div> -->
 <div>
 <div class="parallax-container">
   <div class="parallax"><img src="{{ url_for('static', filename = 'images/low_library.jpg') }}"></div>
@@ -155,54 +140,6 @@
         accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
       });
     });
-  </script>
-  <script>
-  $(document).ready(function(){
-    $('.parallax').parallax();
-    $(function () {
-        Highcharts.chart('sentiment', {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
-            },
-            title: {
-                text: 'Sentiment for these reviews'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
-                    }
-                }
-            },
-            series: [{
-                name: 'Sentiment',
-                colorByPoint: true,
-                data: [{
-                    name: 'Positive',
-                    y: {{ data2 }}
-                }, {
-                    name: 'Negative',
-                    y: {{ data3 }},
-                    sliced: true,
-                    selected: true
-                }]
-            }]
-        });
-    });
-
-  });
   </script>
   <script>
   $('.dropdown-button').dropdown({

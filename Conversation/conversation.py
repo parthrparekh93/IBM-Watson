@@ -23,20 +23,22 @@ def get_loc(response):
 		if entity["entity"] == "professor" or entity["entity"] == "course":
 			entity_value = entity["value"]
 			entity_value = entity_value.replace(" ", " & ")
-
+			lec_or_officehours = ""
 			if entity["entity"] == "professor":
 				if oh_lec == 0 or oh_lec == "office hours":
-					s = "SELECT pname, cno, name, professor2.loc_no, professor2.loc_code, building.x_co, building.y_co, building.b_name FROM professor2 JOIN building ON professor2.loc_code = building.b_code JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
-
+					s = "SELECT pname, cno, name, professor2.loc_no, professor2.loc_code, building.x_co, building.y_co, building.b_name, course_prof2.oh_time, course.description FROM professor2 JOIN building ON professor2.loc_code = building.b_code JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
+					lec_or_officehours = "office_hours"
 				else:
-					s = "SELECT pname, cno, name, course_prof2.loc_no, course_prof2.loc_code, building.x_co, building.y_co, building.b_name FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN building ON course_prof2.loc_code = building.b_code JOIN course ON course_prof2.cid = course.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
+					s = "SELECT pname, cno, name, course_prof2.loc_no, course_prof2.loc_code, building.x_co, building.y_co, building.b_name, course_prof2.lec_time, course.description FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN building ON course_prof2.loc_code = building.b_code JOIN course ON course_prof2.cid = course.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
+					lec_or_officehours = "lecture"
 
 			elif entity["entity"] == "course":
 				if oh_lec == 0 or oh_lec == "lecture":
-					s = "SELECT pname, cno, name, course_prof2.loc_no, course_prof2.loc_code, building.x_co, building.y_co, building.b_name FROM course_prof2 JOIN building ON course_prof2.loc_code = building.b_code JOIN course ON course.cid = course_prof2.cid JOIN professor2 ON course_prof2.pid = professor2.pid where to_tsvector('english', course.name) @@ to_tsquery('english', '%s')"
-
+					s = "SELECT pname, cno, name, course_prof2.loc_no, course_prof2.loc_code, building.x_co, building.y_co, building.b_name, course_prof2.lec_time, course.description FROM course_prof2 JOIN building ON course_prof2.loc_code = building.b_code JOIN course ON course.cid = course_prof2.cid JOIN professor2 ON course_prof2.pid = professor2.pid where to_tsvector('english', course.name) @@ to_tsquery('english', '%s')"
+					lec_or_officehours = "lecture"
 				else:
-					s = "SELECT pname, cno, name, professor2.loc_no, professor2.loc_code, building.x_co, building.y_co, building.b_name FROM course_prof2 JOIN professor2 ON course_prof2.pid = professor2.pid JOIN building ON professor2.loc_code = building.b_code JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', course.name) @@ to_tsquery('english', '%s')"
+					s = "SELECT pname, cno, name, professor2.loc_no, professor2.loc_code, building.x_co, building.y_co, building.b_name, course_prof2.oh_time, course.description FROM course_prof2 JOIN professor2 ON course_prof2.pid = professor2.pid JOIN building ON professor2.loc_code = building.b_code JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', course.name) @@ to_tsquery('english', '%s')"
+					lec_or_officehours = "office_hours"
 
 			s = s.replace("%s",entity_value)
 			val = doQuery(s)
@@ -45,17 +47,20 @@ def get_loc(response):
 				tdic["professor"] = v[0]
 				tdic["cno"] = v[1]
 				tdic["coursename"] = v[2]
-				tdic["loc_code"] = v[3]
-				tdic["loc_name"] = v[4]
+				tdic["loc_no"] = v[3]
+				tdic["loc_code"] = v[4]
 				tdic["x_coord"] = v[5]
 				tdic["y_coord"] = v[6]
 				tdic["building"] = v[7]
+				tdic["timing"] = v[8]
+				tdic["description"] = v[9]
+				tdic["lec_or_officehours"] = lec_or_officehours
 				found = True
 				res.append(tdic)
 
 	result_dict["found"] = found
 	result_dict["value"] = res
-
+	result_dict["page"] = "location_"+lec_or_officehours
 
 def get_time(response):
 	entities = response["entities"]
@@ -72,19 +77,21 @@ def get_time(response):
 		if entity["entity"] == "professor" or entity["entity"] == "course":
 			entity_value = entity["value"]
 			entity_value = entity_value.replace(" ", " & ")
-
+			lec_or_officehours = ""
 			if entity["entity"] == "professor":
 				if oh_lec == 0 or oh_lec == "office hours":
-					s = "SELECT pname, cno, name, oh_time FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
-
+					s = "SELECT pname, cno, name, oh_time, building.b_name, professor2.loc_code, professor2.loc_no, course.description FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
+					lec_or_officehours = "office_hours"
 				else:
-					s = "SELECT pname, cno, name, lec_time FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
-
+					s = "SELECT pname, cno, name, lec_time, building.b_name, course_prof2.loc_code, course_prof2.loc_no, course.description FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid JOIN building ON course_prof2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
+					lec_or_officehours = "lecture"
 			elif entity["entity"] == "course":
 				if oh_lec == 0 or oh_lec == "lecture":
-					s = "SELECT pname, cno, name, lec_time FROM course JOIN course_prof2 ON course.cid = course_prof2.cid JOIN professor2 ON professor2.pid = course_prof2.pid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
+					s = "SELECT pname, cno, name, lec_time, building.b_name, course_prof2.loc_code, course_prof2.loc_no, course.description FROM course JOIN course_prof2 ON course.cid = course_prof2.cid JOIN professor2 ON professor2.pid = course_prof2.pid JOIN building ON course_prof2.loc_code = building.b_code where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
+					lec_or_officehours = "lecture"
 				else:
-					s = "SELECT pname, cno, name, oh_time FROM course JOIN course_prof2 ON course.cid = course_prof2.cid JOIN professor2 ON professor2.pid = course_prof2.pid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
+					s = "SELECT pname, cno, name, oh_time, building.b_name, professor2.loc_code, professor2.loc_no, course.description FROM course JOIN course_prof2 ON course.cid = course_prof2.cid JOIN professor2 ON professor2.pid = course_prof2.pid JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
+					lec_or_officehours = "office_hours"
 
 			s = s.replace("%s",entity_value)
 			val = doQuery(s)
@@ -94,11 +101,16 @@ def get_time(response):
 				tdic["cno"] = v[1]
 				tdic["coursename"] = v[2]
 				tdic["time"] = v[3]
+				tdic["building"] = v[4]
+				tdic["loc_code"] = v[5]
+				tdic["loc_no"] = v[6]
+				tdic["description"] = v[7]
 				found = True
 				res.append(tdic)
 
 	result_dict["found"] = found
 	result_dict["value"] = res
+	result_dict["page"] = "time_"+lec_or_officehours
 
 def get_reviews(response):
 	entities =  response["entities"]
@@ -142,16 +154,21 @@ def get_suggestion(response):
 			indices = entity["location"]
 			entity_value = text[indices[0]: indices[1]]
 			entity_value = entity_value.replace(" ", " & ")
-			s = "SELECT name, description FROM course where to_tsvector('english', name || ' ' || description) @@ to_tsquery('english', '%s')"
+			s = "SELECT name, pname, description FROM course JOIN course_prof2 ON course_prof2.cid = course.cid JOIN professor2 ON course_prof2.pid = professor2.pid where to_tsvector('english', name || ' ' || description) @@ to_tsquery('english', '%s')"
 			s = s.replace("%s",entity_value)
 			result = doQuery(s)
-			for i,j in result:
-				courses.add(i)
-	for course in courses:
-		res.append({"course": course})
+			for r in result:
+				courses.add(r)
+	for v in courses:
+		tdic = {}
+		tdic["coursename"] = v[0]
+		tdic["professor"] = v[1]
+		tdic["description"] = v[2]
+		res.append(tdic)
 		found = True
 	result_dict["found"] = found
 	result_dict["value"] = res
+	result_dict["page"] = "suggest_course"
 
 
 def entry(inputText):
@@ -186,4 +203,4 @@ def entry(inputText):
 		result_dict["value"] = [{"text":"Thank you. Have a great day!"}]
 	return result_dict
 
-print json.dumps(entry("Where does alfio sit"),indent=2)
+print json.dumps(entry("Suggest some courses for Machine Learning"),indent=2)
