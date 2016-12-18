@@ -98,7 +98,9 @@ def search():
 
         for val in value:
             val["timing"] = val["timing"].decode("utf-8")
-            val["location"] = str(val["building"]).replace(' ', '+')
+            print str(val["building"])
+            val["location"] = str(val["building"]).replace(' ', '+').replace('&', 'and')
+            print str(val["location"])
             val["src"] = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=" + str(val["location"]) + "+of+Columbia+University"
         alt_intents = response["response"]["intents"][1:]
 
@@ -112,7 +114,9 @@ def search():
 
         for val in value:
             val["timing"] = val["timing"].decode("utf-8")
-            val["location"] = str(val["building"]).replace(' ', '+')
+            print str(val["building"])
+            val["location"] = str(val["building"]).replace(' ', '+').replace('&', 'and')
+            print str(val["location"])
             val["src"] = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=" + str(val["location"]) + "+of+Columbia+University"
         alt_intents = response["response"]["intents"][1:]
 
@@ -126,7 +130,9 @@ def search():
 
         for val in value:
             val["time"] = val["time"].decode("utf-8")
-            val["location"] = str(val["building"]).replace(' ', '+')
+            print str(val["building"])
+            val["location"] = str(val["building"]).replace(' ', '+').replace('&', 'and')
+            print str(val["location"])
             val["src"] = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=" + str(val["location"]) + "+of+Columbia+University"
         alt_intents = response["response"]["intents"][1:]
 
@@ -140,7 +146,9 @@ def search():
 
         for val in value:
             val["time"] = val["time"].decode("utf-8")
-            val["location"] = str(val["building"]).replace(' ', '+')
+            print str(val["building"])
+            val["location"] = str(val["building"]).replace(' ', '+').replace('&', 'and')
+            print str(val["location"])
             val["src"] = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDK0K9X-rKtBwacjisV8vFPTuJBNoM8wFs&q=" + str(val["location"]) + "+of+Columbia+University"
         alt_intents = response["response"]["intents"][1:]
 

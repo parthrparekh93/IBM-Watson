@@ -203,4 +203,4 @@ def entry(inputText):
 		result_dict["value"] = [{"text":"Thank you. Have a great day!"}]
 	return result_dict
 
-print json.dumps(entry("Suggest some courses for Machine Learning"),indent=2)
+#print json.dumps(entry("Suggest some courses for Machine Learning"),indent=2)
