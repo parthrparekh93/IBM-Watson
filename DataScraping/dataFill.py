@@ -5,7 +5,7 @@ from watson_developer_cloud import AlchemyLanguageV1
 from bs4 import BeautifulSoup
 import tone_analyzer
 
-alchemy_language = AlchemyLanguageV1(api_key='b3425e39a3c407de56c9c08ca8854305db268925')
+alchemy_language = AlchemyLanguageV1(api_key='XXXX')
 
 hostname = 'echo-01.db.elephantsql.com'
 username = 'XXXX'
