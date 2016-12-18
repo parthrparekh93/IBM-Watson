@@ -7,10 +7,10 @@ import tone_analyzer
 
 alchemy_language = AlchemyLanguageV1(api_key='b3425e39a3c407de56c9c08ca8854305db268925')
 
-hostname = 'localhost'
-username = 'postgres'
-password = 'postgres'
-database = 'columbiaconnect'
+hostname = 'echo-01.db.elephantsql.com'
+username = 'fkwmrwis'
+password = 'MzWMfguQyEDEXHmlhwNue0WhmoHnA7z3'
+database = 'fkwmrwis'
 
 # Simple routine to run a query on a database and print the results:
 def doQuery(conn) :
@@ -25,11 +25,11 @@ def doQuery(conn) :
             data = [i.strip() for i in data_og]
             #print data
             if(data[0] not in pdic):
-                #cur.execute("INSERT INTO professor2 VALUES (%s, %s, %s, %s, %s)",(pid,data[0],data[1],data[2],data[3]))
+                cur.execute("INSERT INTO professor2 VALUES (%s, %s, %s, %s, %s)",(pid,data[0],data[1],data[2],data[3]))
                 pdic[data[0]]=pid
                 pid+=1
             if(data[4] not in cdic):
-                #cur.execute("INSERT INTO course VALUES (%s, %s, %s, %s, %s, %s)",(cid, data[4],data[5],data[1],data[6],""))
+                cur.execute("INSERT INTO course VALUES (%s, %s, %s, %s, %s, %s)",(cid, data[4],data[5],data[1],data[6],""))
                 cdic[data[4]] = cid
                 cid+=1
             #cur.execute("INSERT INTO building VALUES (%s, %s, %s, %s)",(data[0],data[1],float(data[2]), float(data[3])))
@@ -39,7 +39,7 @@ def doQuery(conn) :
             data = [i.strip() for i in data_og]
             #print data
             cur.execute("INSERT INTO course_prof2 VALUES (%s, %s, %s, %s, %s, %s)",(cdic[data[4]], pdic[data[0]],data[7],data[8],data[9],data[10]))
-    put_reviews(cur, pdic, cdic)
+    #put_reviews(cur, pdic, cdic)
 
 def put_reviews(cur, pdic, cdic):
     professors = ["http://culpa.info/professors/2742", "http://culpa.info/professors/4500", "http://culpa.info/professors/2568", 
