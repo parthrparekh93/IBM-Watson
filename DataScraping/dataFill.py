@@ -25,11 +25,11 @@ def doQuery(conn) :
             data = [i.strip() for i in data_og]
             #print data
             if(data[0] not in pdic):
-                cur.execute("INSERT INTO professor2 VALUES (%s, %s, %s, %s, %s)",(pid,data[0],data[1],data[2],data[3]))
+                # cur.execute("INSERT INTO professor2 VALUES (%s, %s, %s, %s, %s)",(pid,data[0],data[1],data[2],data[3]))
                 pdic[data[0]]=pid
                 pid+=1
             if(data[4] not in cdic):
-                cur.execute("INSERT INTO course VALUES (%s, %s, %s, %s, %s, %s)",(cid, data[4],data[5],data[1],data[6],""))
+                # cur.execute("INSERT INTO course VALUES (%s, %s, %s, %s, %s, %s)",(cid, data[4],data[5],data[1],data[6],""))
                 cdic[data[4]] = cid
                 cid+=1
             #cur.execute("INSERT INTO building VALUES (%s, %s, %s, %s)",(data[0],data[1],float(data[2]), float(data[3])))
@@ -38,8 +38,8 @@ def doQuery(conn) :
             data_og = line.split('$')
             data = [i.strip() for i in data_og]
             #print data
-            cur.execute("INSERT INTO course_prof2 VALUES (%s, %s, %s, %s, %s, %s)",(cdic[data[4]], pdic[data[0]],data[7],data[8],data[9],data[10]))
-    #put_reviews(cur, pdic, cdic)
+            # cur.execute("INSERT INTO course_prof2 VALUES (%s, %s, %s, %s, %s, %s)",(cdic[data[4]], pdic[data[0]],data[7],data[8],data[9],data[10]))
+    put_reviews(cur, pdic, cdic)
 
 def put_reviews(cur, pdic, cdic):
     professors = ["http://culpa.info/professors/2742", "http://culpa.info/professors/4500", "http://culpa.info/professors/2568", 
@@ -85,31 +85,41 @@ def put_reviews(cur, pdic, cdic):
             except:
                 reviewToCourse[reviews_array[i]] = course_name
 
-        print professor_name
+        # print professor_name
         #print dept_name
         # print course_name
         # print reviews_array
         # print len(reviews_array)
         sentiment_array = list()
-        emotion_array = []
-        language_array = []
-        social_array = []
+        tone_array = []
 
         for review in reviews_array:
-            emotion_array.append(tone_analyzer.get_emotions(review))
-            language_array.append(tone_analyzer.get_language(review))
-            social_array.append(tone_analyzer.get_social(review))
-            sentiment_array.append(json.dumps(alchemy_language.sentiment(text=review)["docSentiment"]["type"]))
-        count = 0
-        for i, review in enumerate(reviewToCourse):
-            print reviewToCourse[review]
-            if(reviewToCourse[review] in cdic):
-                count += 1
-                cid = cdic[reviewToCourse[review]]
-                cur.execute("INSERT INTO course_review VALUES (%s, %s, %s, %s)",(cid, pid,review,sentiment_array[i]))
-                #print cid, pid,review#,sentiment_array[i]
-        print count
+            
+            tones = tone_analyzer.get_tones(review)
+            
+            if tones[0]["joy"]>=0.4 and (tones[1]["analytical"]>=0.4 or tones[1]["confident"]>=0.4):
+                tone_array.append("Approving")
 
+            elif (tones[0]["anger"]>=0.4 or tones[0]["sadness"]>=0.4) and (tones[1]["analytical"]>=0.4 or tones[1]["confident"]>=0.4):
+                tone_array.append("Disapproving")
+            
+            elif (tones[0]["anger"]>=0.4 or tones[0]["sadness"]>=0.4) and (tones[1]["tentative"]>=0.4 or tones[1]["analytical"]<0.2):
+                tone_array.append("Vindictive")
+
+            else:
+                tone_array.append("Neutral")
+            # print tones
+            # print tone_array[-1]
+
+            sentiment_array.append(json.dumps(alchemy_language.sentiment(text=review)["docSentiment"]["type"]))
+        
+        for i, review in enumerate(reviewToCourse):
+            # print reviewToCourse[review]
+            if(reviewToCourse[review] in cdic):
+                cid = cdic[reviewToCourse[review]]
+                cur.execute("INSERT INTO course_review VALUES (%s, %s, %s, %s, %s)",(cid, pid,review,sentiment_array[i], tone_array[i]))
+                # print sentiment_array[i], tone_array[i]
+        
 
 
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )

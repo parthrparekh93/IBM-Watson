@@ -89,7 +89,29 @@ def search():
         pos_percent = format(((positive/float(total)) * 100),'.2f')
         neg_percent = format(100 - ((positive/float(total)) * 100),'.2f')
 
-        context = dict(data=alt_intents, data1=value, data2=pos_percent, data3=neg_percent, data4=entity)
+        total =0
+        approving = 0
+        disapproving = 0
+        neutral = 0
+        vindictive = 0
+        for review in value:
+            total += 1
+            if review["tone"] == "Approving":
+                approving += 1
+            elif review["tone"] == "Disapproving":
+                disapproving += 1
+            elif review["tone"] == "Vindictive":
+                vindictive += 1
+            elif review["tone"] == "Neutral":
+                neutral += 1
+            
+
+        app_percent = format(((approving/float(total)) * 100),'.2f')
+        dis_percent = format(((disapproving/float(total)) * 100),'.2f')
+        vin_percent = format(((vindictive/float(total)) * 100),'.2f')
+        neutral_percent = format(((neutral/float(total)) * 100),'.2f')
+
+        context = dict(data=alt_intents, data1=value, data2=pos_percent, data3=neg_percent, data4=entity, data5=[app_percent, dis_percent, vin_percent, neutral_percent])
         render_file = str(page) + ".html"
         print json.dumps(context, indent=2)
         return render_template(render_file, **context)

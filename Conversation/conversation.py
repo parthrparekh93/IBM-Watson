@@ -122,9 +122,9 @@ def get_reviews(response):
 			entity_value = entity["value"]
 			entity_value = entity_value.replace(" ", " & ")
 			if entity["entity"] == "professor":
-				s = "SELECT pname, name, review, sentiment FROM professor2 JOIN course_review ON professor2.pid=course_review.pid JOIN course ON course.cid=course_review.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
+				s = "SELECT pname, name, review, sentiment, tone FROM professor2 JOIN course_review ON professor2.pid=course_review.pid JOIN course ON course.cid=course_review.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
 			else:
-				s = "SELECT pname, name, review, sentiment FROM course JOIN course_review ON course.cid=course_review.cid JOIN professor2 ON professor2.pid=course_review.pid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
+				s = "SELECT pname, name, review, sentiment, tone FROM course JOIN course_review ON course.cid=course_review.cid JOIN professor2 ON professor2.pid=course_review.pid where to_tsvector('english', name) @@ to_tsquery('english', '%s')"
 			s = s.replace("%s",entity_value)
 			print doQuery(s)
 			val = doQuery(s)
@@ -134,6 +134,7 @@ def get_reviews(response):
 				tdic["coursename"] = v[1]
 				tdic["review"] = v[2]
 				tdic["sentiment"] = v[3]
+				tdic["tone"] = v[4]
 				found = True
 				res.append(tdic)
 
