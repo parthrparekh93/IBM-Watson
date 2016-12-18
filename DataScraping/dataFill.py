@@ -8,9 +8,9 @@ import tone_analyzer
 alchemy_language = AlchemyLanguageV1(api_key='b3425e39a3c407de56c9c08ca8854305db268925')
 
 hostname = 'echo-01.db.elephantsql.com'
-username = 'fkwmrwis'
-password = 'MzWMfguQyEDEXHmlhwNue0WhmoHnA7z3'
-database = 'fkwmrwis'
+username = 'XXXX'
+password = 'XXXX'
+database = 'XXXX'
 
 # Simple routine to run a query on a database and print the results:
 def doQuery(conn) :
