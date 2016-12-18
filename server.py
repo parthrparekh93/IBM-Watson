@@ -59,26 +59,41 @@ def index():
 
 @app.route('/search',methods=['GET'])
 def search():
-    # text = str(request.args["query"])
-    # response = entry(text)
-    #intent = response["intent"]
-    intent = "location"
-    # alt_intents = response["response"]["intents"][1:]
-    alt_intents = [{"confidence":0.004, "intent" : "get_location"},{"confidence":0.2, "intent" : "get_course"}]
+    text = str(request.args["query"])
+    response = entry(text)
 
-    # value = response["value"]
-    value = [
-            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
-            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
-            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
-            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
-            {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"negative\""}
-            ]
+    page = response["page"]
+    if page == "reviews":
+        # intent = "location"
+        alt_intents = response["response"]["intents"][1:]
+        # alt_intents = [{"confidence":0.004, "intent" : "get_location"},{"confidence":0.2, "intent" : "get_course"}]
 
-    context = dict(data=alt_intents, data1=value)
-    render_file = str(intent) + ".html"
-    print json.dumps(context, indent=2)
-    return render_template(render_file, **context)
+        value = response["value"]
+        # value = [
+
+                # {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
+                # {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
+                # {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
+                # {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"postive\""},
+                # {"coursename":"Introduction to Databases" ,"professor" : "Eugene Wu","review":"Good Professor","sentiment":"\"negative\""}
+                # ]
+        total =0
+        positive = 0
+        for review in value:
+            total += 1
+            if review["sentiment"] == "\"positive\"":
+                positive += 1
+
+        percent = format(((positive/float(total)) * 100),'.2f')
+
+        context = dict(data=alt_intents, data1=value, data2=percent)
+        render_file = str(page) + ".html"
+        print json.dumps(context, indent=2)
+        return render_template(render_file, **context)
+    #
+    # elif intent == "location":
+
+
 
 @app.route('/club',methods=['GET'])
 def club():
