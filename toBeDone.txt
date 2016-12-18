@@ -1,5 +1,0 @@
-Tone analyzer and keywords
-retrieve-and-rank OR Any evaluation system
-Maps
-UI
-Presentation
