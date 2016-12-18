@@ -49,9 +49,11 @@ def put_reviews(cur, pdic, cdic):
     "http://www.culpa.info/professors/2427","http://www.culpa.info/professors/1637","http://www.culpa.info/professors/3509",
     "http://www.culpa.info/professors/4210","http://www.culpa.info/professors/3409","http://www.culpa.info/professors/13070",
     "http://www.culpa.info/professors/4205", "http://www.culpa.info/professors/12959","http://www.culpa.info/professors/515",
-    "http://www.culpa.info/professors/39","http://www.culpa.info/professors/4057","http://www.culpa.info/professors/4221"];
+    "http://www.culpa.info/professors/39","http://www.culpa.info/professors/4057","http://www.culpa.info/professors/4221",
+    "http://www.culpa.info/professors/743" , "http://www.culpa.info/professors/11193","http://www.culpa.info/professors/3608",
+    "http://www.culpa.info/professors/12773"];
     #professors = ["http://culpa.info/professors/375"];
-    pids = [1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 15, 16 ,17, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29]
+    pids = [1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 15, 16 ,17, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33]
     for j,professor in enumerate(professors):
         page = urllib2.urlopen(professor)
         soup = BeautifulSoup(page)
