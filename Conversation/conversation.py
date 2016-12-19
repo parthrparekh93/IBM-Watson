@@ -199,9 +199,10 @@ def entry(inputText):
 
 	elif response["intents"][0]["intent"] == "hello":
 		result_dict["value"] = [{"text":"Hi, How may I help you?"}]
-
-	elif response["intents"][0]["intent"] == "goodbye":
-		result_dict["value"] = [{"text":"Thank you. Have a great day!"}]
+		result_dict["found"] = True
+		result_dict["page"] = "hello" 
+	else:
+		result_dict["found"] = False
 	return result_dict
 
-#print json.dumps(entry("Suggest some courses for Machine Learning"),indent=2)
+print json.dumps(entry("abba dabba jhabba"),indent=2)
