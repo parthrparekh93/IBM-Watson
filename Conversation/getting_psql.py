@@ -1,9 +1,9 @@
 import psycopg2
 
 hostname = 'echo-01.db.elephantsql.com'
-username = 'fkwmrwis'
-password = 'MzWMfguQyEDEXHmlhwNue0WhmoHnA7z3'
-database = 'fkwmrwis'
+username = 'XXXX'
+password = 'XXXX'
+database = 'XXXX'
 
 def doQuery(s) :
     myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )

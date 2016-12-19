@@ -173,9 +173,9 @@ def get_suggestion(response):
 
 
 def entry(inputText):
-	conversation = ConversationV1(username='e2668e32-d4e4-48f9-8050-13a437a30ea4', password='HxIQNbLB67Fh', version='2016-09-20')
+	conversation = ConversationV1(username='XXXX', password='XXXX', version='2016-09-20')
 	context = {}
-	workspace_id = '500fe656-514a-4ef0-ac20-6be33318f043'
+	workspace_id = 'XXXX'
 	response = conversation.message(
 	  workspace_id=workspace_id,
 	  message_input={'text': inputText},
