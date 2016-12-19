@@ -67,6 +67,7 @@ def search():
     if response["found"] == True:
         page = response["page"]
         alt_intents = response["response"]["intents"][1:]
+        score = response["response"]["intents"][0]["confidence"]
         for i,a in enumerate(alt_intents):
             alt_intents[i]["intent"] = intent_map[a["intent"]]
         page_new = intent_map[page]
@@ -126,7 +127,7 @@ def search():
             vin_percent = format(((vindictive/float(total)) * 100),'.2f')
             neutral_percent = format(((neutral/float(total)) * 100),'.2f')
 
-            context = dict(data=alt_intents, data1=value, data2=pos_percent, data3=neg_percent, data4=entity, data5=[app_percent, dis_percent, vin_percent, neutral_percent],text=text,intent=page_new)
+            context = dict(data=alt_intents, data1=value, data2=pos_percent, data3=neg_percent, data4=entity, data5=[app_percent, dis_percent, vin_percent, neutral_percent],text=text,intent=page_new,score=score)
             render_file = str(page) + ".html"
             print json.dumps(context, indent=2)
             return render_template(render_file, **context)
@@ -142,7 +143,7 @@ def search():
             # alt_intents = response["response"]["intents"][1:]
 
             entity = response["response"]["entities"]
-            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new)
+            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new,score=score)
             render_file = str(page) + ".html"
             return render_template(render_file, **context)
 
@@ -158,7 +159,7 @@ def search():
             # alt_intents = response["response"]["intents"][1:]
 
             entity = response["response"]["entities"]
-            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new)
+            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new,score=score)
             render_file = str(page) + ".html"
             return render_template(render_file, **context)
 
@@ -174,7 +175,7 @@ def search():
             # alt_intents = response["response"]["intents"][1:]
 
             entity = response["response"]["entities"]
-            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new)
+            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new,score=score)
             render_file = str(page) + ".html"
             return render_template(render_file, **context)
 
@@ -190,7 +191,7 @@ def search():
             # alt_intents = response["response"]["intents"][1:]
 
             entity = response["response"]["entities"]
-            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new)
+            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new,score=score)
             render_file = str(page) + ".html"
             return render_template(render_file, **context)
 
@@ -200,7 +201,7 @@ def search():
             # alt_intents = response["response"]["intents"][1:]
 
             entity = response["response"]["entities"]
-            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new)
+            context = dict(data=alt_intents, data1=value, data2=entity,text=text,intent=page_new,score=score)
             render_file = str(page) + ".html"
             return render_template(render_file, **context)
 

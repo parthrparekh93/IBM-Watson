@@ -18,12 +18,12 @@ def get_loc(response):
 
 	res = []
 	found = False
-
+	lec_or_officehours = ""
 	for entity in entities:
 		if entity["entity"] == "professor" or entity["entity"] == "course":
 			entity_value = entity["value"]
 			entity_value = entity_value.replace(" ", " & ")
-			lec_or_officehours = ""
+
 			if entity["entity"] == "professor":
 				if oh_lec == 0 or oh_lec == "office hours":
 					s = "SELECT pname, cno, name, professor2.loc_no, professor2.loc_code, building.x_co, building.y_co, building.b_name, course_prof2.oh_time, course.description FROM professor2 JOIN building ON professor2.loc_code = building.b_code JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
@@ -72,12 +72,12 @@ def get_time(response):
 	res = []
 	found = False
 
-
+	lec_or_officehours = ""
 	for entity in entities:
 		if entity["entity"] == "professor" or entity["entity"] == "course":
 			entity_value = entity["value"]
 			entity_value = entity_value.replace(" ", " & ")
-			lec_or_officehours = ""
+
 			if entity["entity"] == "professor":
 				if oh_lec == 0 or oh_lec == "office hours":
 					s = "SELECT pname, cno, name, oh_time, building.b_name, professor2.loc_code, professor2.loc_no, course.description FROM professor2 JOIN course_prof2 ON professor2.pid = course_prof2.pid JOIN course ON course.cid = course_prof2.cid JOIN building ON professor2.loc_code = building.b_code where to_tsvector('english', pname) @@ to_tsquery('english', '%s')"
@@ -200,9 +200,9 @@ def entry(inputText):
 	elif response["intents"][0]["intent"] == "hello":
 		result_dict["value"] = [{"text":"Hi, How may I help you?"}]
 		result_dict["found"] = True
-		result_dict["page"] = "hello" 
+		result_dict["page"] = "hello"
 	else:
 		result_dict["found"] = False
 	return result_dict
 
-print json.dumps(entry("abba dabba jhabba"),indent=2)
+#print json.dumps(entry("abba dabba jhabba"),indent=2)
