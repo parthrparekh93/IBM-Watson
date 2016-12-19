@@ -3,7 +3,7 @@ import json
 from watson_developer_cloud import AlchemyLanguageV1
 from bs4 import BeautifulSoup
 
-alchemy_language = AlchemyLanguageV1(api_key='b3425e39a3c407de56c9c08ca8854305db268925')
+alchemy_language = AlchemyLanguageV1(api_key='XXXX')
 
 #wiki = "http://www.culpa.info/professors/1636"
 professors = ["http://culpa.info/professors/2742", "http://culpa.info/professors/4500", "http://culpa.info/professors/2568", "http://culpa.info/professors/13217", "http://culpa.info/professors/1442", "http://culpa.info/professors/13116", "http://culpa.info/professors/375", "http://culpa.info/professors/3366", "http://culpa.info/professors/13076", "http://culpa.info/professors/1724", "http://culpa.info/professors/2941"];

@@ -3,7 +3,7 @@ from watson_developer_cloud import ToneAnalyzerV3
 
 tone_analyzer = ToneAnalyzerV3(
    username='4998e736-6da5-4ac4-ae43-a34c0a603d6e',
-   password='32smz86vQzde',
+   password='XXXX',
    version='2016-05-19')
 
 def get_tones(s):
